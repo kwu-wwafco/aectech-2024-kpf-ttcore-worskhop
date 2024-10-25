@@ -82,6 +82,17 @@ function init() {
   lightHelper = new THREE.SpotLightHelper( spotLight );
 	scene.add( lightHelper );
 
+  //Colored Spot Lights
+  spotLight2 = new THREE.SpotLight( 0x00FFFF, 500 );
+  spotLight2.position.set(100, 0, 100 );
+  spotLight2.angle = Math.PI / 6;
+  spotLight2.penumbra = 1;
+  spotLight2.decay = 0;
+  spotLight2.distance = 500;
+  scene.add( spotLight2 );
+  lightHelper2 = new THREE.SpotLightHelper( spotLight2 );
+	scene.add( lightHelper2 );
+
   //Create Materials
   mirrorMaterial = new THREE.MeshStandardMaterial( {
     roughness: 0,
@@ -119,6 +130,11 @@ function init() {
   gui.add( spotLight, 'distance', 0, 700).name('spotlight distance')
   gui.add( spotLight, 'angle', 0, Math.PI / 3).name('spotlight angle')
 
+  const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 ); 
+  const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } ); 
+  const torus = new THREE.Mesh( geometry, material ); 
+  scene.add( torus );
+
   //Animate
   animate()
 }
@@ -136,7 +152,7 @@ async function compute() {
   // clear objects from scene
   let objectsToRemove = []
   scene.children.forEach(child => {
-    if (!child.type.toLowerCase().includes("light")) {
+    if (!child.type.toLowerCase().includes("light") || child.type != "Mesh") {
       objectsToRemove.push(child)
     }
   })
@@ -166,6 +182,7 @@ async function compute() {
 }
 
 let angle = 0
+let angle2 = 0
 
 // for controls update
 function animate() {
@@ -175,10 +192,16 @@ function animate() {
   controls.update();
 
   //Rotate Spotlight
-  // const radius = 100; 
-  // angle += 0.01;
-  // spotLight.position.x = Math.sin(angle) * radius;
-  // spotLight.position.z = Math.cos(angle) * radius;
+  const radius = 100; 
+  angle += 0.01;
+  spotLight.position.x = Math.sin(angle) * radius;
+  spotLight.position.z = Math.cos(angle) * radius;
+
+  //Rotate Spotlight2
+  angle2 += 0.02;
+  spotLight2.position.x = Math.sin(angle2) * radius;
+  spotLight2.position.z = Math.cos(angle2) * radius;
+
 
   //Rotate Discoball - Y is up
   scene.traverse((child) => {

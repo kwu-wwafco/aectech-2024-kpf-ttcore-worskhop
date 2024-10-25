@@ -12,7 +12,6 @@
     </ul>
     
     <br>
-
     <h2>To learn more about basic web development feel free to check out the following link:</h2>
     <a href="https://www.w3schools.com/html/html_intro.asp">W3 Link</a>
 
@@ -50,8 +49,9 @@ const changeTitleColor = () => {
 #body {
   display: flex;
   flex-direction: column;
-  margin: 20px
-}
+  margin: 20px;
+  /* background-color:aqua  */
+} 
 
 .myButton {
   background-color: black;
